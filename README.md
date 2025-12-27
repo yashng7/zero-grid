@@ -1,36 +1,144 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ZEROGRID - Cybersecurity Issue Management Platform
 
-## Getting Started
+A full-stack Next.js application for managing security incidents with custom JWT authentication, rate limiting, and email notifications.
 
-First, run the development server:
+## Features
 
+- 🔐 Custom JWT authentication (no third-party services)
+- 📊 Issue tracking (Cloud Security, VAPT, Reteam Assessment)
+- ⚡ Rate limiting (100 req/15min)
+- 📧 Email notifications (Resend)
+- 🎨 Modern cybersecurity-themed UI
+- 🔄 Real-time updates and filtering
+- 🛡️ Password reset functionality
+
+## Tech Stack
+
+**Frontend:** Next.js 15, React 19, TypeScript, Tailwind CSS  
+**Backend:** Next.js API Routes (OOP), Drizzle ORM, PostgreSQL  
+**Auth:** JWT + bcrypt  
+**Email:** Resend
+
+## Quick Start
+
+### Prerequisites
+- Node.js 18+
+- PostgreSQL database (Supabase recommended)
+- Resend API key
+
+### Installation
 ```bash
+# Clone repository
+git clone https://github.com/yashng7/zero-grid.git
+cd zero-grid
+
+# Install dependencies
+npm install
+
+# Setup environment variables
+cp .env.example .env
+# Edit .env with your credentials
+
+# Run database migrations
+npm run db:push
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
+```env
+DATABASE_URL="postgresql://user:password@host:5432/db"
+JWT_SECRET="your-secret-key-min-32-chars"
+JWT_REFRESH_SECRET="your-refresh-secret"
+RESEND_API_KEY="re_your_api_key"
+RESEND_FROM_EMAIL="onboarding@resend.dev"
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## API Endpoints
 
-## Learn More
+### Authentication
+- `POST /api/auth/register` - Register user
+- `POST /api/auth/login` - Login user
+- `POST /api/auth/logout` - Logout user
+- `GET /api/auth/me` - Get current user
 
-To learn more about Next.js, take a look at the following resources:
+### Issues
+- `GET /api/issues` - List issues (filter: `?type=cloud-security`)
+- `POST /api/issues` - Create issue
+- `GET /api/issues/[id]` - Get issue
+- `PUT /api/issues/[id]` - Update issue
+- `DELETE /api/issues/[id]` - Delete issue
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Profile
+- `GET /api/users/profile` - Get profile
+- `PUT /api/users/profile` - Update profile
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
+```
+apnisec-app/
+├── app/                    # Next.js pages
+│   ├── api/               # API routes
+│   ├── dashboard/         # Dashboard page
+│   ├── login/            # Login page
+│   └── profile/          # Profile page
+├── lib/                   # Backend logic
+│   ├── handlers/         # Request handlers
+│   ├── services/         # Business logic
+│   ├── db/              # Database schema
+│   ├── validators.ts    # Input validation
+│   ├── rate-limiter.ts  # Rate limiting
+│   └── email.ts         # Email service
+└── drizzle/             # Database migrations
+```
 
-## Deploy on Vercel
+## OOP Architecture
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Backend follows strict OOP principles:
+- **Handlers** - HTTP request/response
+- **Services** - Business logic
+- **Repositories** - Data access
+- **Validators** - Input validation
+- **Middleware** - Authentication
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+### Vercel (Recommended)
+```bash
+# Push to GitHub
+git push origin main
+
+# Deploy to Vercel
+vercel --prod
+```
+
+Add environment variables in Vercel dashboard.
+
+## Features Demo
+
+**Register/Login** → **Create Issues** → **Track & Update** → **Manage Profile**
+
+
+## License
+
+MIT
+
+## Author
+
+Yashwant Gawande - [GitHub](https://github.com/yashng7)
+
+## Assignment
+
+Built as part of SDE Intern assignment for ApniSec.
+
+**Requirements Met:**
+- ✅ Custom JWT authentication
+- ✅ Full OOP backend structure
+- ✅ Rate limiting with headers
+- ✅ Email integration
+- ✅ Issue management CRUD
+- ✅ SEO optimized (80%+)
+- ✅ Deployed to production
